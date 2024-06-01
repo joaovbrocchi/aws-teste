@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: joaovbrocchi78/teste-frontend-app:latest
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    command: sh -c "sleep 10 && nginx -g 'daemon off;'"
+    networks:
+      - app-network
+
+  backend:
+    image: joaovbrocchi78/teste-backend-app:latest
+    restart: always
+    ports:
+      - "${NODE_DOCKER_PORT}:${NODE_LOCAL_PORT}"
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: ${APP_DEBUG}
+      DB_HOST: ${MYSQL_HOST}
+      DB_PORT: ${MYSQL_DOCKER_PORT}
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USERNAME: ${MYSQL_USERNAME}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8.0.37
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "${MYSQL_LOCAL_PORT}:${MYSQL_DOCKER_PORT}"
+    expose:
+      - "${MYSQL_DOCKER_PORT}"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 30s
+      retries: 10
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:

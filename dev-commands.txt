@@ -1,0 +1,7 @@
+docker build -t joaovbrocchi78/teste-frontend-app:latest .
+docker push joaovbrocchi78/teste-frontend-app:latest
+
+docker build -t joaovbrocchi78/teste-backend-app:latest .
+docker push joaovbrocchi78/teste-backend-app:latest
+
+
