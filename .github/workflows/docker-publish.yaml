@@ -15,10 +15,10 @@ jobs:
 
       # Build your Docker image
       - name: Build front-end image
-        run: docker build -t joaovbrocchi78/teste-frontend-app:latest ../../front-end/Dockerfile
+        run: docker build -t joaovbrocchi78/teste-frontend-app:latest ./frontend/.
 
       - name: Build back-end image
-        run:  docker build -t joaovbrocchi78/teste-backend-app:latest ../../back-end/Dockerfile
+        run: docker build -t joaovbrocchi78/teste-backend-app:latest ./backend/.
   
       # Log in to Docker Hub
       - name: Docker login
