@@ -1,6 +1,6 @@
 import express, { urlencoded } from "express";
 import { Sequelize, DataTypes } from "sequelize";
-import  {counter,histogram, summary, gauge}  from "./prometheus/Prometheus.js";
+import  {counter, histogram, summary, gauge}  from "./prometheus/Prometheus.js";
 import cors from "cors";
 import dotenv from "dotenv";
 import prom from "prom-client"
@@ -57,7 +57,7 @@ app.post('/usuarios', async (req, res) => {
 
 app.get("/metrics", async (req, res)=>{
   res.set("Content-Type", prom.register.contentType)
-  res.send( await prom.register.metrics());
+  res.end( await prom.register.metrics());
 })
 
 // Iniciar o servidor
