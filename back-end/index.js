@@ -1,7 +1,8 @@
 import express, { urlencoded } from "express";
 import { Sequelize, DataTypes } from "sequelize";
-import cors from "cors"
-import dotenv from "dotenv"
+import  {counter}  from "./prometheus/Prometheus.js";
+import cors from "cors";
+import dotenv from "dotenv";
 dotenv.config()
 
 
@@ -37,6 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 // Rota GET para listar todos os usuários
 app.get('/usuarios', async (req, res) => {
+  counter.inc();
   try {
     const usuarios = await Usuario.findAll();
     res.json(usuarios);
