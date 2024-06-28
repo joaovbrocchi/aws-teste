@@ -56,7 +56,6 @@ app.post('/usuarios', async (req, res) => {
 });
 
 app.get("/metrics", (req, res)=>{
-
   res.end( prom.register.metrics());
 })
 
