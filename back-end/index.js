@@ -4,7 +4,9 @@ import  {counter, histogram, summary, gauge}  from "./prometheus/Prometheus.js";
 import cors from "cors";
 import dotenv from "dotenv";
 import prom from "prom-client"
-import {register} from "prom-client"
+
+const register = new prom.Registry()
+prom.collectDefaultMetrics({register})
 dotenv.config()
 
 
@@ -55,9 +57,9 @@ app.post('/usuarios', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-app.get("/metrics", async (req, res) => {
-  res.set("Content-Type", register.contentType);
-  res.send(await register.metrics());
+app.get('/metrics', (req, res) =>{
+    res.setHeader('Content-Type',register.contentType)
+    register.metrics().then(data => res.status(200).send(data))
 });
 
 // Iniciar o servidor
