@@ -55,9 +55,9 @@ app.post('/usuarios', async (req, res) => {
   }
 });
 
-app.get("/metrics", async (req, res)=>{
-  res.set("Content-Type", prom.register.contentType)
-  res.end( await prom.register.metrics());
+app.get("/metrics", (req, res)=>{
+
+  res.end( prom.register.metrics());
 })
 
 // Iniciar o servidor
