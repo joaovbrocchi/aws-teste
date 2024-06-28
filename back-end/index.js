@@ -3,6 +3,8 @@ import { Sequelize, DataTypes } from "sequelize";
 import  {counter}  from "./prometheus/Prometheus.js";
 import cors from "cors";
 import dotenv from "dotenv";
+import { Registry } from "prom-client";
+import prom from "prom-client"
 dotenv.config()
 
 
@@ -63,3 +65,8 @@ const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
+
+app.get("/metrics", async (req, res)=>{
+  res.set("Content-Type", prom.register.contentType)
+  res.end( await prom.register.metrics());
+})
