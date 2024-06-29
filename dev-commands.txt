@@ -4,4 +4,5 @@ docker push joaovbrocchi78/teste-frontend-app:latest
 docker build -t joaovbrocchi78/teste-backend-app:latest .
 docker push joaovbrocchi78/teste-backend-app:latest
 
+docker run --name prometheus --rm -d -p 9090:9090 -v /mnt/d/ESTUDO/aws/estrutura-sishot/app/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
 

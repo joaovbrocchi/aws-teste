@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  app:
+    image: minha-imagem-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: node_app
+    ports:
+      - "8080:8080"
+    volumes:
+      - /usr/src/app/node_modules  # Manter os módulos node_modules persistentes
+      - .:/usr/src/app  # Montar o diretório atual como volume no contêiner
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - /mnt/d/ESTUDO/aws/estrutura-sishot/app/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
